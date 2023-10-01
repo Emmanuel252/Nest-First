@@ -7,6 +7,7 @@ import {
   Param,
   Query,
   Body,
+  NotFoundException,
 } from '@nestjs/common';
 import { CreateNinjaDto } from '../ninjas/dto/create-ninja.dto';
 import { UpdateNinjaDto } from './dto/update-ninja.dto';
@@ -25,8 +26,12 @@ export class NinjasController {
   //Get /ninjas/:id --> {...}
   @Get(':id')
   getOneNinja(@Param('id') id: string) {
-    // Nest Injecte automatiquement l'url dans la methode
-    return this.ninjasService.getNinja(+id);
+    try {
+      // Nest Injecte automatiquement l'url dans la methode
+      return this.ninjasService.getNinja(+id);
+    } catch (err) {
+      if (err instanceof DbE) throw new NotFoundException();
+    }
   }
 
   //POST /ninjas

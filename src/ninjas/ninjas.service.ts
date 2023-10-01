@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateNinjaDto } from './dto/create-ninja.dto';
+import { UpdateNinjaDto } from './dto/update-ninja.dto';
 
 @Injectable()
 export class NinjasService {
@@ -41,8 +42,8 @@ export class NinjasService {
   }
 
   removeNinja(id: number) {
-    const toBeRemoved = this.getNinjas(id);
-    this.ninjas = this.ninjas.filter((ninjas) => this.ninjas.id !== id);
+    const toBeRemoved = this.getNinja(id);
+    this.ninjas = this.ninjas.filter((ninjas) => ninjas.id !== id);
     return toBeRemoved;
   }
 }

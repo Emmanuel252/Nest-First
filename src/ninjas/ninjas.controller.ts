@@ -8,6 +8,8 @@ import {
   Query,
   Body,
   NotFoundException,
+  ParseIntPipe,
+  ValidationPipe,
 } from '@nestjs/common';
 import { CreateNinjaDto } from '../ninjas/dto/create-ninja.dto';
 import { UpdateNinjaDto } from './dto/update-ninja.dto';
@@ -25,18 +27,18 @@ export class NinjasController {
 
   //Get /ninjas/:id --> {...}
   @Get(':id')
-  getOneNinja(@Param('id') id: string) {
+  getOneNinja(@Param('id', ParseIntPipe) id: number) {
     try {
       // Nest Injecte automatiquement l'url dans la methode
-      return this.ninjasService.getNinja(+id);
+      return this.ninjasService.getNinja(id);
     } catch (err) {
-      if (err instanceof DbE) throw new NotFoundException();
+      throw new NotFoundException();
     }
   }
 
   //POST /ninjas
   @Post()
-  createNinja(@Body() createNinjaDto: CreateNinjaDto) {
+  createNinja(@Body(new ValidationPipe()) createNinjaDto: CreateNinjaDto) {
     return this.ninjasService.createNinja(createNinjaDto);
   }
 

@@ -25,7 +25,7 @@ export class AuthController {
   @Get(':id')
   getOneAuth(@Param('id') id: number) {
     try {
-      return this.authService.getUser(id);
+      return this.authService.getUser(+id);
     } catch (err) {
       throw new NotFoundException();
     }
